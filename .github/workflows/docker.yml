@@ -40,25 +40,25 @@ jobs:
 
 
       - name: Construir imagen
-        run: docker build -t mateorapt231/api-libreria:latest .
+        run: docker build -t watipollo/api-libreria:latest .
 
 
       - name: Subir imagen
-        run: docker push mateorapt231/api-libreria:latest
+        run: docker push watipollo/api-libreria:latest
 
 
       - name: Probar conexión EC2
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: 16.59.106.156
+          host: 107.20.83.229
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            sudo docker pull mateorapt231/api-libreria:latest
+            sudo docker pull watipollo/api-libreria:latest
             sudo docker stop api-spring || true
             sudo docker rm api-spring || true
             sudo docker run -d \
               --name api-spring \
               --network libreria-aws \
               -p 8080:8080 \
-              mateorapt231/api-libreria:latest
+              watipollo/api-libreria:latest
